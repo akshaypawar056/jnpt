@@ -1,8 +1,0 @@
-.venv/
-__pycache__/
-*.py[cod]
-*.db
-instance/
-uploads/
-.env
-.pytest_cache/
