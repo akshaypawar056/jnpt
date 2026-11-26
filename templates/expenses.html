@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% block content %}<h1>Expense claims</h1>
+<form method="post" enctype="multipart/form-data" class="form-grid">
+{% if u.role in ['admin','manager'] %}<label>Employee<select name="employee_id" required>{% for e in employees %}<option value="{{e.id}}">{{e.code}} - {{e.name}}</option>{% endfor %}</select></label>{% endif %}
+<label>Project<select name="project_id" required>{% for p in projects %}<option value="{{p.id}}">{{p.code}} - {{p.name}}</option>{% endfor %}</select></label>
+<label>Related travel (optional)<select name="travel_id"><option value="">None</option>{% for t in travels %}<option value="{{t.id}}">#{{t.id}} {{t.origin}} to {{t.destination}}</option>{% endfor %}</select></label>
+<label>Expense date<input type="date" name="expense_date" required></label><label>Category<input name="category" required></label>
+<label>Description<input name="description"></label><label>Amount (₹)<input type="number" min="0" step="0.01" name="amount" required></label>
+<label>GST (₹)<input type="number" min="0" step="0.01" name="gst" value="0"></label>
+<label>Payment method<input name="payment_method"></label><label>Receipt (PDF/JPG/PNG)<input type="file" name="receipt" accept=".pdf,.jpg,.jpeg,.png"></label>
+<div><button>Submit claim</button></div></form>
+<h2>Claims</h2><table><tr><th>Claim</th><th>Date</th><th>Employee</th><th>Project</th><th>Category</th><th>Total</th><th>Status</th><th>Receipt</th></tr>
+{% for e in expenses %}<tr><td>{{e.claim_no}}</td><td>{{e.expense_date}}</td><td>{{e.employee.name}}</td><td>{{e.project.code}}</td><td>{{e.category}}</td><td>₹{{e.amount + e.gst}}</td><td>{{e.status}}</td><td>{% if e.receipt %}<a href="{{url_for('uploads',filename=e.receipt)}}">Download</a>{% else %}-{% endif %}</td></tr>{% else %}<tr><td colspan="8">No expense claims.</td></tr>{% endfor %}</table>{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}{% block content %}
+<h1>Dashboard</h1><p class="muted">Overview of claims and project activity.</p>
+<div class="cards">
+<div class="card"><span>Total expenses</span><strong>₹{{ '%.2f'|format(total) }}</strong></div>
+<div class="card"><span>Approved</span><strong>₹{{ '%.2f'|format(approved) }}</strong></div>
+<div class="card"><span>Pending</span><strong>₹{{ '%.2f'|format(pending) }}</strong></div>
+<div class="card"><span>Reimbursed</span><strong>₹{{ '%.2f'|format(reimbursed) }}</strong></div>
+<div class="card"><span>Active employees</span><strong>{{ employees }}</strong></div>
+<div class="card"><span>Travel requests</span><strong>{{ travel_count }}</strong></div>
+</div>
+<h2>Recent expense claims</h2>
+<table><tr><th>Claim</th><th>Date</th><th>Employee</th><th>Project</th><th>Total</th><th>Status</th></tr>
+{% for e in recent %}<tr><td>{{ e.claim_no }}</td><td>{{ e.expense_date }}</td><td>{{ e.employee.name }}</td><td>{{ e.project.code }}</td><td>₹{{ '%.2f'|format(e.amount + e.gst) }}</td><td>{{ e.status }}</td></tr>{% else %}<tr><td colspan="6">No claims yet.</td></tr>{% endfor %}</table>
+{% endblock %}

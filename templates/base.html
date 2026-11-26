@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}JNPA Expense Management{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="{{ url_for('dashboard') if logged_user else url_for('login') }}">JNPA | Expense MIS</a>
+  {% if logged_user %}
+  <nav>
+    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+    <a href="{{ url_for('projects') }}">Projects</a>
+    <a href="{{ url_for('employees') }}">Employees</a>
+    <a href="{{ url_for('travel') }}">Travel</a>
+    <a href="{{ url_for('advances') }}">Advances</a>
+    <a href="{{ url_for('expenses') }}">Expenses</a>
+    {% if logged_user.role in ['admin','manager'] %}<a href="{{ url_for('approvals') }}">Approvals</a>{% endif %}
+    {% if logged_user.role == 'admin' %}<a href="{{ url_for('audit_page') }}">Audit</a>{% endif %}
+    <a href="{{ url_for('export_report') }}">Excel export</a><a href="{{ url_for('logout') }}">Logout</a>
+  </nav>
+  {% endif %}
+</header>
+<main class="container">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}<div class="alert {{ category }}">{{ message }}</div>{% endfor %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main>
+<footer>JNPA Project &amp; Expense Management</footer>
+</body></html>

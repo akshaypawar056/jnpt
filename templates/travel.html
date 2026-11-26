@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block content %}<h1>Travel requests</h1>
+<form method="post" class="form-grid">
+{% if u.role in ['admin','manager'] %}<label>Employee<select name="employee_id" required>{% for e in employees %}<option value="{{e.id}}">{{e.code}} - {{e.name}}</option>{% endfor %}</select></label>{% endif %}
+<label>Project<select name="project_id" required>{% for p in projects %}<option value="{{p.id}}">{{p.code}} - {{p.name}}</option>{% endfor %}</select></label>
+<label>Travel date<input type="date" name="travel_date" required></label><label>Return date<input type="date" name="return_date"></label>
+<label>From<input name="origin"></label><label>To<input name="destination"></label><label>Purpose<input name="purpose"></label>
+<label>Mode<input name="mode"></label><label>Hotel<input name="hotel"></label><label>Advance (₹)<input type="number" min="0" step="0.01" name="advance"></label><div><button>Submit request</button></div></form>
+<h2>Requests</h2><table><tr><th>Date</th><th>Employee</th><th>Project</th><th>Route</th><th>Advance</th><th>Status</th></tr>
+{% for t in travels %}<tr><td>{{t.travel_date}}</td><td>{{t.employee.name}}</td><td>{{t.project.code}}</td><td>{{t.origin}} → {{t.destination}}</td><td>₹{{t.advance}}</td><td>{{t.status}}</td></tr>{% else %}<tr><td colspan="6">No travel requests.</td></tr>{% endfor %}</table>{% endblock %}

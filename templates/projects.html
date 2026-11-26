@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block content %}<h1>Projects</h1>
+<form method="post" class="form-grid">
+<label>Project code<input name="code" required></label><label>Project name<input name="name" required></label>
+<label>Client<input name="client"></label><label>Project manager<input name="manager"></label>
+<label>Start date<input type="date" name="start_date"></label><label>End date<input type="date" name="end_date"></label>
+<label>Budget (₹)<input type="number" min="0" step="0.01" name="budget"></label>
+<label>Status<select name="status"><option>Active</option><option>On Hold</option><option>Completed</option></select></label><div><button>Add project</button></div></form>
+<h2>Project summary</h2><table><tr><th>Code</th><th>Project</th><th>Client</th><th>Budget</th><th>Actual</th><th>Balance</th></tr>
+{% for p,actual,balance in rows %}<tr><td>{{p.code}}</td><td>{{p.name}}</td><td>{{p.client or '-'}}</td><td>₹{{p.budget}}</td><td>₹{{actual}}</td><td>₹{{balance}}</td></tr>{% else %}<tr><td colspan="6">No projects found.</td></tr>{% endfor %}</table>{% endblock %}

@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block content %}<h1>Advance requests</h1>
+<form method="post" class="form-grid">
+{% if u.role in ['admin','manager'] %}<label>Employee<select name="employee_id" required>{% for e in employees %}<option value="{{e.id}}">{{e.code}} - {{e.name}}</option>{% endfor %}</select></label>{% endif %}
+<label>Project<select name="project_id" required>{% for p in projects %}<option value="{{p.id}}">{{p.code}} - {{p.name}}</option>{% endfor %}</select></label>
+<label>Related travel (optional)<select name="travel_id"><option value="">None</option>{% for t in travels %}<option value="{{t.id}}">#{{t.id}} {{t.origin}} to {{t.destination}}</option>{% endfor %}</select></label>
+<label>Amount (₹)<input type="number" min="0" step="0.01" name="amount" required></label><label>Purpose<input name="purpose"></label><div><button>Request advance</button></div></form>
+<h2>Requests</h2><table><tr><th>Advance no.</th><th>Date</th><th>Employee</th><th>Project</th><th>Amount</th><th>Status</th></tr>
+{% for a in advances %}<tr><td>{{a.advance_no}}</td><td>{{a.request_date}}</td><td>{{a.employee.name}}</td><td>{{a.project.code}}</td><td>₹{{a.amount}}</td><td>{{a.status}}</td></tr>{% else %}<tr><td colspan="6">No advance requests.</td></tr>{% endfor %}</table>{% endblock %}
